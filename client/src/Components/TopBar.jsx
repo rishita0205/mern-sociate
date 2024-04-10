@@ -1,6 +1,7 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
 import {useDispatch, useSelector} from 'react-redux'
+import { SetTheme } from '../redux/theme';
 import { TbSocial } from "react-icons/tb";
 import TextInput from './TextInput';
 import CustomButton from './CustomButton';
@@ -21,7 +22,7 @@ const TopBar = () => {
   const handleTheme = () => {
 
     const themeValue = theme === 'light' ? 'dark' : 'light';
-    dispatch(SetTh)
+    dispatch(SetTheme(themeValue))
 
   }
 
@@ -42,8 +43,8 @@ const TopBar = () => {
         </form>
 
         <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl">
-            <button onClick={()=>handleTheme()}>{theme ? <BsMoon/> : <BsSunFill/>}</button>
-            <div className="hidden lg:flex">
+        <button onClick={()=>handleTheme()}>{theme=='light' ? <BsMoon/> : <BsSunFill/>}</button>
+         <div className="hidden lg:flex">
                 <IoMdNotificationsOutline/>
             </div>
         </div>
