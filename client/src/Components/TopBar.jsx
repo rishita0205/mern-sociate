@@ -38,8 +38,8 @@ const TopBar = () => {
         </Link>
 
         <form className='hidden md:flex items-center justify-center ' onSubmit={handleSubmit(handleSearch)}>
-            <TextInput placeholder='Search...' styles='w-[18rem] lg:w-[38rem] rounded-l-full py-3 ' register={register('search')}/>
-            <CustomButton title='Search' type='submit' containerStyles='bg-[#044a4] text-white px-6 py-2.5 mt-2 rounded-r-full'/>
+            <TextInput placeholder='Search...' styles='w-[18rem] lg:w-[38rem] rounded-full py-3 ' register={register('search')}/>
+            <CustomButton title='Search' type='submit' containerStyles='bg-[#044a4] text-white px-6 py-2.5 mt-2 rounded-full'/>
         </form>
 
         <div className="flex gap-4 items-center text-ascent-1 text-md md:text-xl">
