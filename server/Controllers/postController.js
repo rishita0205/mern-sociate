@@ -56,8 +56,7 @@ So, this expression is searching for posts where the description field matches t
     const posts = await Posts.find(search ? searchPostQuery : {})
       .populate({
         path: "userId",
-        select: "firstName lastName location profileUrl -password",
-      })
+        select: "firstName lastName location profileUrl ",      })
       .sort({ _id: -1 });
 
 //The value -1 indicates descending order. Documents are sorted by _id in descending order, meaning the most recently inserted documents will appear first in the result set.
@@ -102,13 +101,12 @@ export const getPost = async (req, res, next) => {
 
     const post = await Posts.findById(id).populate({
       path: "userId",
-      select: "firstName lastName location profileUrl -password",
-    }).populate({
+      select: "firstName lastName location profileUrl ",    }).populate({
       path: "comments",
       populate: {
         path: "userId",
-        select: "firstName lastName location profileUrl -password",
-      },
+        select: "firstName lastName location profileUrl ",
+       },
       options: {
         sort: "-_id",
       },
@@ -116,7 +114,7 @@ export const getPost = async (req, res, next) => {
       path: "comments",
       populate: {
         path: "replies.userId",
-        select: "firstName lastName location profileUrl -password",
+        select: "firstName lastName location profileUrl ",
       },
     });
 
@@ -145,7 +143,7 @@ export const getUserPost = async (req, res, next) => {
     const post = await Posts.find({ userId: id })
       .populate({
         path: "userId",
-        select: "firstName lastName location profileUrl -password",
+        select: "firstName lastName location profileUrl ",
       })
       .sort({ _id: -1 });
 
@@ -167,11 +165,11 @@ export const getComments = async (req, res, next) => {
     const postComments = await Comments.find({ postId })
       .populate({
         path: "userId",
-        select: "firstName lastName location profileUrl -password",
+        select: "firstName lastName location profileUrl ",
       })
       .populate({
         path: "replies.userId",
-        select: "firstName lastName location profileUrl -password",
+        select: "firstName lastName location profileUrl ",
       })
       .sort({ _id: -1 });
 
