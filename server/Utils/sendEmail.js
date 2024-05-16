@@ -12,8 +12,8 @@ const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
 let transporter = nodemailer.createTransport({
   host: "smtp-mail.outlook.com",
   auth: {
-    user: process.env.AUTH_EMAIL,
-    pass: process.env.AUTH_PASSWORD,
+    user: AUTH_EMAIL,
+    pass:AUTH_PASSWORD,
   },
 });
 
@@ -45,7 +45,7 @@ export const sendVerificationEmail = async (user, res) => {
     </p>
     <div style="margin-top: 20px;">
         <h5>Best Regards</h5>
-        <h5>Karandeep Singh</h5>
+        <h5>RishitaMaheshwari</h5>
     </div>
 </div>`,
   };
@@ -87,7 +87,6 @@ export const resetPasswordLink = async (user, res) => {
 
   const token = _id + uuidv4();
   const link = APP_URL + "/users/reset-password/" + _id + "/" + token;
-
   //   mail options
   const mailOptions = {
     from: AUTH_EMAIL,

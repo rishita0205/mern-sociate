@@ -39,7 +39,7 @@ const Register = () => {
             </span>
           </div>
 
-          <p className='text-ascent-1 text-base font-semibold'>
+          <p className='text-ascent-1 text-base text-2xl font-semibold'>
             Create your account
           </p>
 
