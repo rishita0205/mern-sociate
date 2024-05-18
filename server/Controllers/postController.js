@@ -62,7 +62,7 @@ So, this expression is searching for posts where the description field matches t
 //The value -1 indicates descending order. Documents are sorted by _id in descending order, meaning the most recently inserted documents will appear first in the result set.
 
     const friendsPosts = posts?.filter((post) => {
-      return friends.includes(post?.userId?._id.toString());
+      return friends.includes(post?.userId?._id.toString()) && post?.userId?._id.toString() !== userId;
     });
 
     // const otherPosts = posts?.filter(
@@ -77,11 +77,13 @@ So, this expression is searching for posts where the description field matches t
     //   postsRes = posts;
     // }
 
-    if (friendsPosts?.length > 0) {//Priority Given to Friends Posts
-    postsRes = friendsPosts;
-    } else {
-    postsRes = posts;
-    }
+    if (friendsPosts?.length > 0) {
+      //Priority Given to Friends Posts
+        postsRes = friendsPosts;
+      } 
+      else {
+        postsRes = posts;
+      }
 
     res.status(200).json({
       sucess: true,

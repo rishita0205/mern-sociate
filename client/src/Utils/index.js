@@ -68,8 +68,31 @@ export const fetchPosts = async(token, dispatch, uri, data) => {
     }
 }
 
+export const handleView = async(userId, user) => {
+
+    //userId is id of user whose profile current user is trying to open
+        try {
+    
+          if(userId._id == user._id)
+          return;
+    
+          const res = await apiRequest({
+            url: "/users/profile-view",
+            method: "POST",
+            data: {id: userId, user},
+            token: user?.token
+          });
+    
+        //   console.log(res);
+    
+        } catch (error) {
+          console.log(error);
+        }
+    
+      }
+
 export const likePost = async({uri, token}) => {
-    console.log(uri)
+    //console.log(uri)
     try {
 
         const res = await apiRequest({
@@ -106,7 +129,7 @@ export const getUserInfo = async(token, id) => {
 
     try {
 
-        const uri = (id === undefined) ? '/users/get-user' : '/user/get-user/' + id;
+        const uri = (id === undefined) ? '/users/get-user' : '/users/get-user/' + id;
 
         const res = await apiRequest({
             url: uri,
@@ -140,6 +163,7 @@ export const sendFriendRequest = async(token, id) => {
                 requestTo: id
             }
         });
+        console.log(res)
 
         return;
 

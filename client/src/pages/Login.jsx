@@ -91,7 +91,7 @@ const Login = () => {
 
             <Link
               to="/reset-password"
-              className="text-sm text-right text-blue font-semibold"
+              className="text-sm mt-2 mb-2 text-right text-blue font-semibold"
             >
               Forgot Password?
             </Link>
@@ -137,12 +137,11 @@ const Login = () => {
               <span className="text-xs font-medium">Share</span>
             </div>
 
-            <div className="absolute flex items-center gap-1 bg-white left-10 top-6 py-2 px-5 rounded-full">
-              <ImConnection />
+            <div className='absolute flex items-center gap-1 bg-white left-9 top-6 py-2 px-5 rounded-full'>              <ImConnection />
               <span className="text-xs font-medium">Connect</span>
             </div>
 
-            <div className="absolute flex items-center gap-1 bg-white left-12 bottom-6 py-2 px-5 rounded-full">
+            <div className="absolute flex items-center gap-1 bg-white left-10 bottom-6 py-2 px-5 rounded-full">
               <AiOutlineInteraction />
               <span className="text-xs font-medium">Interact</span>
             </div>

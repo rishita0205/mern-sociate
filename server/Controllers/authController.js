@@ -4,12 +4,11 @@ import { sendVerificationEmail } from "../Utils/sendEmail.js";
 
 export const register = async(req, res, next)   => {
 
-    const {firstName, lastName, email, password} = req.body;
-
-    if(!firstName || !lastName || !email || !password){
-        next('Provide Required Fields');
-        return;
-    }
+  const {firstName, lastName, email, password, profileUrl} = req.body;
+  if(!firstName || !lastName || !email || !password || !profileUrl){
+    next('Provide Required Fields');
+    return;
+}
 
     try {
 
@@ -27,6 +26,7 @@ export const register = async(req, res, next)   => {
         lastName,
         email,
         password: hashedPassword,
+        profileUrl
         });
 
     sendVerificationEmail(user, res);
@@ -50,7 +50,7 @@ export const login = async (req, res, next) => {
     // find user by email
     const user = await Users.findOne({ email }).select("+password").populate({
       path: "friends",
-      select: "firstName lastName location profileUrl -password",
+      select: "firstName lastName location profileUrl ",
     });
 
 /* It fetches a user document from the Users collection based on the provided email, includes the password field in the result, and also populates the friends field, including only specific fields from the referenced documents (such as firstName, lastName, location, and profileUrl) while excluding the password field from the populated friends.*/
