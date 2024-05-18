@@ -1,32 +1,32 @@
 import axios from 'axios'
 import { SetPosts } from '../redux/postSlice';
-const API_URL = 'http://localhost:8080/';
+const API_URL = 'http://localhost:8800';
 
 export const API = axios.create({
     baseURL: API_URL,
     responseType: 'json'
 });
 
-export const apiRequest = async({url, token, data, method}) => {
+export const apiRequest = async ({ url, token, data, method }) => {
     try {
-
+        
         const result = await API(url, {
-            method: method  || "GET",
+            method: method || "GET",
             data: data,
             headers: {
                 "content-type": 'application/json',
-                Authorization: token ? `Bearer ${token}`: ""
+                Authorization: token ? `Bearer ${token}` : ""
             }
         });
-
         return result.data;
-
     } catch (error) {
-        const err = error.response.data;
-        console.log(err);
-        return {status: err.success, message: err.message};
+        console.error(error);
+        if (error.response && error.response.data) {
+            return { status: 'failed', message: error.response.data.message };
+        }
+        return { status: 'failed', message: 'An unexpected error occurred' };
     }
-}
+};
 
 export const handleFileUpload = async(uploadFile) => {
 
@@ -58,6 +58,7 @@ export const fetchPosts = async(token, dispatch, uri, data) => {
             data: data || {},
             method: "POST"
         })
+        //console.log(res)
 
         dispatch(SetPosts(res?.data));
         return;
@@ -68,15 +69,16 @@ export const fetchPosts = async(token, dispatch, uri, data) => {
 }
 
 export const likePost = async({uri, token}) => {
-
+    console.log(uri)
     try {
 
         const res = await apiRequest({
             url: uri,
             token: token,
             method: "POST"
-        });
+        })
 
+        // console.log(res)
     } catch (error) {
         console.log(error)
     }
