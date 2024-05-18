@@ -20,58 +20,53 @@ const Register = () => {
     mode: "onChange",
   });
 
-  
-
   const [errMsg, setErrMsg] = useState("");
   const [picture, setPicture] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+
+  const handleSelect = (e) => {
+    setPicture(e.target.files[0]);
+  };
+
   const onSubmit = async (data) => {
-    const handleSelect = (e) => {
-      setPicture(e.target.files[0]);
-    };
     setIsSubmitting(true);
     const { firstName, lastName, email, password } = data;
     const uri = picture && (await handleFileUpload(picture));
 
     try {
-
       const res = await apiRequest({
         url: '/auth/register',
-        data: { firstName, lastName, email, password, profileUrl: uri ? uri : "" },
+        data: { firstName, lastName, email, password, profileUrl: uri || "" },
         method: 'POST'
-      })
+      });
 
-      if(res?.status === "failed") {
+      if (res?.status === "failed") {
         setErrMsg(res);
         setIsSubmitting(false);
-      }
-
-      else{
+      } else {
         setErrMsg(res);
-        setTimeout(() =>{
+        setTimeout(() => {
           window.location.replace('/login');
-        }, 1000)
+        }, 1000);
         setIsSubmitting(false);
       }
-
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);
     }
-
   };
 
   return (
     <div className='bg-bgColor w-full h-[100vh] flex items-center justify-center p-6'>
-       <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-400px py-8 lg:py-0 flex flex-row-reverse bg-primary rounded-xl overflow-hidden shadow-xl'>
+      <div className='w-full md:w-2/3 h-fit lg:h-full 2xl:h-400px py-8 lg:py-0 flex flex-row-reverse bg-primary rounded-xl overflow-hidden shadow-xl'>
         {/* RIGHT */}
         <div className='w-full lg:w-1/2 h-full p-10 2xl:px-20 flex flex-col justify-center '>
           <div className='w-full flex gap-2 items-center mb-4'>
             <div className='p-2 bg-[#065ad8] rounded text-white'>
               <TbSocial />
             </div>
-            <span className='text-2xl text-[#065ad8]  font-semibold'>
+            <span className='text-2xl text-[#065ad8] font-semibold'>
               ShareFun
             </span>
           </div>
@@ -94,18 +89,19 @@ const Register = () => {
                 register={register("firstName", {
                   required: "First Name is required!",
                 })}
-                error={errors.firstName ? errors.firstName?.message : ""}
+                error={errors.firstName?.message}
               />
 
               <TextInput
+                name='lastName'
                 label='Last Name'
                 placeholder='Last Name'
-                type='lastName'
+                type='text'
                 styles='w-full'
                 register={register("lastName", {
-                  required: "Last Name do no match",
+                  required: "Last Name is required!",
                 })}
-                error={errors.lastName ? errors.lastName?.message : ""}
+                error={errors.lastName?.message}
               />
             </div>
 
@@ -118,7 +114,7 @@ const Register = () => {
                 required: "Email Address is required",
               })}
               styles='w-full'
-              error={errors.email ? errors.email.message : ""}
+              error={errors.email?.message}
             />
 
             <div className='w-full flex flex-col lg:flex-row gap-1 md:gap-2'>
@@ -131,52 +127,42 @@ const Register = () => {
                 register={register("password", {
                   required: "Password is required!",
                 })}
-                error={errors.password ? errors.password?.message : ""}
+                error={errors.password?.message}
               />
 
               <TextInput
+                name='cPassword'
                 label='Confirm Password'
-                placeholder='Password'
+                placeholder='Confirm Password'
                 type='password'
                 styles='w-full'
                 register={register("cPassword", {
                   validate: (value) => {
                     const { password } = getValues();
-
-                    if (password != value) {
-                      return "Passwords do no match";
-                    }
+                    return password === value || "Passwords do not match";
                   },
                 })}
-                error={
-                  errors.cPassword && errors.cPassword.type === "validate"
-                    ? errors.cPassword?.message
-                    : ""
-                }
+                error={errors.cPassword?.message}
               />
             </div>
+
             <label
-                className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
-                htmlFor='imgUpload'
-              >Upload your Profile Picture
-                <input
-                  type='file'
-                  className=''
-                  id='imgUpload'
-                  onChange={(e) => handleSelect(e)}
-                  accept='.jpg, .png, .jpeg'
-                /> 
-              </label>
+              className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
+              htmlFor='imgUpload'
+            >
+              Upload your Profile Picture
+              <input
+                type='file'
+                id='imgUpload'
+                onChange={handleSelect}
+                accept='.jpg, .png, .jpeg'
+                className='hidden'
+              />
+            </label>
 
             {errMsg?.message && (
-              <span
-                className={`text-sm ${
-                  errMsg?.status == "failed"
-                    ? "text-[#f64949fe]"
-                    : "text-[#2ba150fe]"
-                } mt-0.5`}
-              >
-                {errMsg?.message}
+              <span className={`text-sm ${errMsg?.status === "failed" ? "text-[#f64949fe]" : "text-[#2ba150fe]"} mt-0.5`}>
+                {errMsg.message}
               </span>
             )}
 
@@ -185,7 +171,7 @@ const Register = () => {
             ) : (
               <CustomButton
                 type='submit'
-                containerStyles={`inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline-none`}
+                containerStyles='inline-flex justify-center rounded-md bg-blue px-8 py-3 text-sm font-medium text-white outline-none'
                 title='Create Account'
               />
             )}
@@ -240,4 +226,4 @@ const Register = () => {
   );
 };
 
-export default Register
+export default Register;

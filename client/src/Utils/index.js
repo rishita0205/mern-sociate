@@ -32,7 +32,7 @@ export const handleFileUpload = async(uploadFile) => {
 
     const formData = new FormData();
     formData.append('file', uploadFile);
-    formData.append('upload_preset', 'socialmedia');
+    formData.append('upload_preset', 'social_media');
 
     /* A new instance of FormData is created. 
     FormData objects provide a way to easily construct a set of key/value pairs representing form fields and their values, which can then be sent using XMLHttpRequest or the Fetch API. 

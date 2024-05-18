@@ -50,7 +50,7 @@ const TopBar = () => {
             <CustomButton
           title='Search'
           type='submit'
-          containerStyles='bg-[#0444a4] text-white px-6 py-2.5 mt-2 rounded-r-full'
+          containerStyles='bg-[#0444a4] text-white px-6 py-2.5 mt-2 ml-2 rounded-full'
         />        
         </form>
 
